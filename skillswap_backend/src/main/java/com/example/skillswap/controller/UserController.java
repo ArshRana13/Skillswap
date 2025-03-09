@@ -1,11 +1,13 @@
 package com.example.skillswap.controller;
 
 import com.example.skillswap.model.Post;
+import com.example.skillswap.model.Review;
 import com.example.skillswap.model.User;
 import com.example.skillswap.repository.PostRepository;
 import com.example.skillswap.repository.UserRepository;
 import com.example.skillswap.service.MessageService;
 import com.example.skillswap.service.PostService;
+import com.example.skillswap.service.ReviewService;
 import com.example.skillswap.service.UserService;
 import com.example.skillswap.security.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private MessageService messageService;
@@ -53,6 +58,36 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/id/{user_id}")
+    public ResponseEntity<User> getUserById(@PathVariable long user_id) {
+        return userService.getUserById(user_id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @Autowired
+    private ReviewService reviewService;
+
+    @GetMapping("/getReviews/{userId}")
+    public ResponseEntity<List<Review>> getReviews(@PathVariable Long userId) {
+        return ResponseEntity.ok(reviewService.getReviewsForUser(userId));
+    }
+
+
+    @PostMapping("/addReview")
+    public Review addReview(@RequestBody Map<String, String> requestBody) {
+        long giverId = Long.parseLong(requestBody.get("giver_id"));
+        long ReceiverId = Long.parseLong(requestBody.get("receiver_id"));
+        String content = requestBody.get("content");
+        System.out.println("giver id " + giverId + " receiver id " + ReceiverId + " content " + content);
+        Optional<User> receiver = userRepository.findById(ReceiverId);
+        Optional<User> giver = userRepository.findById(giverId);
+        Review review = new Review();
+        review.setContent(content);
+        review.setReceiver(userService.getUserById(ReceiverId));
+        review.setGiver(userService.getUserById(giverId));
+
+        return reviewService.addReview(review);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<List<String>> login(@RequestBody User user) {
         try {
@@ -69,6 +104,24 @@ public class UserController {
         }
     }
 
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable Long id,
+            @RequestBody User updatedUser) {
+
+        return userRepository.findById(id)
+                .map(user -> {
+                    user.setName(updatedUser.getName());
+                    user.setEmail(updatedUser.getEmail());
+                    user.setLocation(updatedUser.getLocation());
+                    user.setProfileImageUrl(updatedUser.getProfileImageUrl());
+                    user.setLinkedInUrl(updatedUser.getLinkedInUrl());
+                    user.setGithubUrl(updatedUser.getGithubUrl());
+                    User savedUser = userRepository.save(user);
+                    return ResponseEntity.ok(savedUser);
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 
 
@@ -115,6 +168,27 @@ public class UserController {
 
 
         List<Post> posts = postService.getUnacceptedPosts(user.get().getId());
+
+        return ResponseEntity.ok(posts);
+
+    }
+
+
+    @GetMapping("/posts/myPosts")
+    public ResponseEntity<List<Post>> getMyPosts(@RequestHeader("Authorization") String token) {
+
+        String email = jwtUtil.extractEmail(token.replace("Bearer ", ""));
+        System.out.println(email);
+
+        // Find the user by email
+        Optional<User> user = userService.getUserByEmail(email);
+
+        if (user.isEmpty()) {
+            return null;
+        }
+
+
+        List<Post> posts = postService.getPostsByUser(user);
 
         return ResponseEntity.ok(posts);
 

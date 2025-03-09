@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import Chat from "../components/Chat";
 import ChatProfile from "../components/ChatProfile";
 import image from '../images/image.jpg';
-import image2 from '../images/images.jpeg';
 
-function ChatPageForDesktop() {
+function ChatPageForDesktop(props) {
     const [selectedUser, setSelectedUser] = useState(null);
     const [selectedUserImage, setSelectedUserImage] = useState("");
     const [chatProfiles, setChatProfiles] = useState([]);
@@ -51,9 +50,9 @@ function ChatPageForDesktop() {
     }, []);
 
     return (
-        <div className="pt-14 h-screen bg-gray-900 flex overflow-hidden">
+        <div className=" h-screen bg-gray-900 flex overflow-hidden">
             {/* Chat profile section */}
-            <div className="h-full bg-gray-800 w-1/3 border-none shadow-xl pt-4 px-8 overflow-y-auto">
+            <div className="h-full bg-gray-800 w-1/3 border-none shadow-xl  px-8 overflow-y-auto pt-14">
                 {/* Back button and search bar */}
                 <div className="flex justify-between mb-4">
                     <button className="w-10 h-10 rounded-full bg-gray-600 hover:bg-gray-700 transition flex justify-center items-center">
@@ -78,12 +77,12 @@ function ChatPageForDesktop() {
                         
                         <ChatProfile
                             key={index}
-                            profilePic={profile.profilePic || image} // Fallback to default image
+                            profilePic={profile.profileImageUrl || image} // Fallback to default image
                             name={profile.name}
                             history={profile.lastMessage || "No messages yet"}
                             onClick={() => {
                                 setSelectedUser(profile);
-                                setSelectedUserImage( image);
+                                setSelectedUserImage( profile.profileImageUrl);
                                 console.log(profile);
                                 
                             }}

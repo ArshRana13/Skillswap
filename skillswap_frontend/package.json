@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.23.0",
     "@stomp/stompjs": "^7.0.0",
     "@tailwindcss/vite": "^4.0.7",
     "framer-motion": "^12.4.7",

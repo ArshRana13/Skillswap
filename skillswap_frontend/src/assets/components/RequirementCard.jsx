@@ -1,8 +1,10 @@
 import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
 import { FaMapMarkerAlt, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+function RequirementCard({image, name, location, needs, offers, rating, id, u_id}) {
 
-function RequirementCard({image, name, location, needs, offers, rating, id}) {
+    const navigate = useNavigate();
 
     const filledStars = Math.floor(rating);
     const hasHalfStar = rating % 1 !== 0;
@@ -15,8 +17,10 @@ function RequirementCard({image, name, location, needs, offers, rating, id}) {
         >
             {/* Top Section: Profile Image & User Info */}
             <div className="flex flex-col sm:flex-row items-center gap-4">
-                <div className="h-16 w-16 rounded-full overflow-hidden border-2 border-blue-500">
-                    <img src={image} alt="User" className="h-full w-full object-cover" />
+                <div className="h-16 w-16 rounded-full  border-2 border-blue-500">
+                    <button>
+                    <img src={image} alt="User" className="h-16 w-16 border-none rounded-full object-cover" />
+                    </button>
                 </div>
                 <div className="text-center sm:text-left">
                     <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">{name}</h3>
@@ -51,7 +55,7 @@ function RequirementCard({image, name, location, needs, offers, rating, id}) {
                 <motion.button
                     whileTap={{ scale: 0.9 }}
                     className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-all duration-300"
-                    onClick={() => console.log(`View Profile: ${id}`)}
+                    onClick={() => navigate(`/viewPost/${id}/${u_id}`)}
                 >
                     Ask more
                 </motion.button>

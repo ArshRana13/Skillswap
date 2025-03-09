@@ -26,7 +26,7 @@ function Dashboard() {
   const [posts, setPosts] = useState([]);
   const [isPostOpen, setIsPostOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
-
+  const [description, setDescription] = useState("");
   const tagsRef = useRef(null);
 
   useEffect(() => {
@@ -54,12 +54,13 @@ function Dashboard() {
   }, []);
 
   const handlePost = async () => {
-    if(offer == "" || requirement == "")
+    if(offer == "" || requirement == "" || description == "")
     {
       alert("Please fill all the fields");
       return;
     }
-    await post({ offer, requirement });
+    await post({ offer, requirement, description});
+    setIsPostOpen(false);
   };
 
   const scrollLeft = () => {
@@ -122,13 +123,14 @@ function Dashboard() {
             filteredPosts.map((post, index) => (
               <RequirementCard
                 key={index}
-                image={images}
+                image={post.user.profileImageUrl}
                 name={post.user.name}
-                location="New York, USA"
+                location= {post.user.location}
                 needs={post.requirement}
                 offers={post.offer}
                 rating={4.5}
                 id= {post.id}
+                u_id = {post.user.id}
                 className="w-full max-w-xs md:max-w-sm mx-auto"
               />
             ))
@@ -166,6 +168,10 @@ function Dashboard() {
                   <option key={index} value={skill}>{skill}</option>
                 ))}
               </select>
+
+              <textarea name="" className="w-full bg-gray-900 mt-4 min-h-18 max-h-28 border-2 text-gray-400 overflow-y-auto" placeholder="Add a description" id=""
+              onChange={(e)=> setDescription(e.target.value)}
+              ></textarea>
               <button className="w-full mt-4 px-5 py-2 bg-blue-600 text-white rounded-lg" onClick={handlePost}>
                 Post
               </button>

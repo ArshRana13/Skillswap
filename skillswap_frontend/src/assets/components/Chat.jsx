@@ -1,20 +1,26 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, } from "react";
 //import SockJS from "sockjs-client";
+import { useLocation } from "react-router-dom";
 import SockJS from "sockjs-client/dist/sockjs"
 import { Client } from "@stomp/stompjs";
 import Message from "./Message";
 
 function Chat(props) {
-    const [messages, setMessages] = useState([]);
-    const [newMessage, setNewMessage] = useState("");
-    const [stompClient, setStompClient] = useState(null); // WebSocket client
-    const messagesEndRef = useRef(null);
+    const location = useLocation();
+    const selectedUser = location.state?.selectedUser || props.selectedUser || {};
+    const profileImage = location.state?.profilePic || props.profilePic;
 
-    const selected_user_id = props.selectedUser.id;
     const current_user_id = parseInt(localStorage.getItem("user_id"), 10);
     const token = localStorage.getItem("token");
+    const selected_user_id = selectedUser.id;
+
+    const [messages, setMessages] = useState([]);
+    const [newMessage, setNewMessage] = useState("");
+    const [stompClient, setStompClient] = useState(null);
+    const messagesEndRef = useRef(null);
+
     // console.log(token);
-    
+
     // Fetch initial messages
     useEffect(() => {
         const getMessages = async () => {
@@ -63,7 +69,7 @@ function Chat(props) {
                     try {
                         const newMessage = JSON.parse(message.body); // Parse the JSON object
                         console.log("sent msg is ", newMessage);
-                        
+
                         setMessages((prevMessages) => [...prevMessages, newMessage]);
                     } catch (error) {
                         console.error("Failed to parse WebSocket message:", error);
@@ -101,14 +107,14 @@ function Chat(props) {
             content: newMessage,
             time: new Date().toISOString(),
         };
-        console.log("message in frontend looks like this -> ",msg);
+        console.log("message in frontend looks like this -> ", msg);
         //setMessages((prevMessages) => [...prevMessages, msg]);
         try {
             // Send the message over WebSocket
             if (stompClient) {
                 stompClient.publish({
                     destination: `/app/chat.sendMessage`,
-                    headers:{
+                    headers: {
                         receiverId: selected_user_id
                     },
                     body: JSON.stringify(msg),
@@ -116,40 +122,42 @@ function Chat(props) {
             }
 
             // Optionally, save the message to the database via REST API
-        //     const response = await fetch("http://localhost:8080/messages/sendMessage", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             Authorization: `Bearer ${token}`,
-        //         },
-        //         body: JSON.stringify(msg),
-        //     });
+            //     const response = await fetch("http://localhost:8080/messages/sendMessage", {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //             Authorization: `Bearer ${token}`,
+            //         },
+            //         body: JSON.stringify(msg),
+            //     });
 
-        //     if (!response.ok) {
-        //         throw new Error(`HTTP error! Status: ${response.error}`);
-        //     }
+            //     if (!response.ok) {
+            //         throw new Error(`HTTP error! Status: ${response.error}`);
+            //     }
 
-        //     const data = await response.json();
-        //     setMessages((prevMessages) => [...prevMessages, data]);
-         } catch (error) {
-        //     console.error("Failure in sending message:", error);
-         }
+            //     const data = await response.json();
+            //     setMessages((prevMessages) => [...prevMessages, data]);
+        } catch (error) {
+            //     console.error("Failure in sending message:", error);
+        }
 
         setNewMessage("");
     };
 
     return (
-        <div className="text-white flex flex-col h-screen bg-gray-900">
+        <div className={`text-white flex flex-col h-screen bg-gray-900 mt-14 `}>
             {/* Chat Header */}
-            <div className="flex w-full h-[72px] items-center gap-4 p-2 bg-gray-800">
-                <div className="h-14 w-14 border-none rounded-full overflow-hidden">
-                    <img
-                        className="h-full w-full object-cover"
-                        src={props.profilePic}
-                        alt={`${props.selectedUser.name}'s profile`}
-                    />
+            <div className="flex w-full justify-between h-[72px] items-center gap-4 p-2 bg-gray-800">
+                <div className=" flex  items-center gap-4">
+                    <div className="h-14 w-14 border-none rounded-full overflow-hidden">
+                        <img className="h-14 w-14 rounded-full object-cover" src={profileImage} alt="Profile" />
+                        
+                    </div>
+                    <div className="text-2xl font-semibold">{selectedUser.name}</div>
                 </div>
-                <div className="text-2xl font-semibold">{props.selectedUser.name}</div>
+                <div className=" h-10 w-10 mr-4 text-gray-400 hover:text-white transition duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-full " viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14zM3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg>
+                </div>
             </div>
 
             {/* Messages Container (Scrolls Automatically) */}

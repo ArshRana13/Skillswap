@@ -25,4 +25,13 @@ public class User {
 
     @Column
     private String location;
+
+    @Column(length = 500)
+    private String profileImageUrl; // Stores the image link
+
+    @Column
+    private String linkedInUrl;
+
+    @Column
+    private String githubUrl;
 }

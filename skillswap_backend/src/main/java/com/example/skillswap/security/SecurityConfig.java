@@ -44,7 +44,22 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/users/register", "/api/users/login", "/api/users/{email}", "/messages/chatProfiles", "/messages/getMessages", "/messages/sendMessage", "/ws/**").permitAll()
+                        .requestMatchers(
+                                "/post/getDetails/{id}",
+                                "/getReviews/{userId}",
+                                "/api/users/register",
+                                "api/users/edit/{id}",
+                                "/api/users/login",
+                                "/api/users/{email}",
+                                "/api/users/{user_id}",
+                                "/messages/chatProfiles",
+                                "/messages/getMessages",
+                                "/messages/sendMessage",
+                                "/ws/**",
+                                "/api/users/addReview",
+                                "/api/users/posts/myPosts"
+
+                                ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

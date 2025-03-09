@@ -42,4 +42,10 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(false);
         }
     }
+
+    @GetMapping("/post/getDetails/{id}")
+    public ResponseEntity<Post> getPostDetails(@PathVariable Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        return post.isPresent() ? ResponseEntity.ok(post.get()) : ResponseEntity.notFound().build();
+    }
 }

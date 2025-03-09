@@ -28,4 +28,7 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "accepted_uid")
     private User acceptedUser;  // Nullable field for accepted user
+
+    @Column
+    private String description;
 }

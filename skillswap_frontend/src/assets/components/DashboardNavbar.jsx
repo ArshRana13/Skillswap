@@ -10,7 +10,7 @@ function DashboardNavbar() {
     };
 
     return (
-        <nav className="bg-black w-full h-14 flex items-center px-4 justify-between fixed z-50">
+        <nav className="bg-black w-full h-14 flex items-center px-4 justify-between fixed z-50 m-0 top-0">
             {/* Icon */}
             <div className="flex items-center">
                 <div className="flex items-center justify-center h-full">
@@ -34,11 +34,11 @@ function DashboardNavbar() {
             <div className="hidden lg:flex border-2 border-gray-400 text-gray-400 w-1/4 rounded-lg px-2 items-center justify-between hover:border-white hover:text-white transition duration-300">
                 <input type="search" name="" id="" placeholder='Search..' className='w-full border-none outline-0' />
                 <svg className=" h-6 w-1/12 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
-                    </svg>
+                    <path fill="currentColor" d="M9.5 16q-2.725 0-4.612-1.888T3 9.5t1.888-4.612T9.5 3t4.613 1.888T16 9.5q0 1.1-.35 2.075T14.7 13.3l5.6 5.6q.275.275.275.7t-.275.7t-.7.275t-.7-.275l-5.6-5.6q-.75.6-1.725.95T9.5 16m0-2q1.875 0 3.188-1.312T14 9.5t-1.312-3.187T9.5 5T6.313 6.313T5 9.5t1.313 3.188T9.5 14" />
+                </svg>
             </div>
 
-           
+
 
             {/* Icon Bar */}
             <ul className="hidden md:flex text-white  w-1/2 justify-evenly items-center">
@@ -52,7 +52,7 @@ function DashboardNavbar() {
 
                 {/* Home */}
                 <button className='text-gray-400 hover:text-white transition duration-200'
-                onClick={()=>{navigate('/dashboard')}}>
+                    onClick={() => { navigate('/dashboard') }}>
                     <li><svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-10" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h3v-5q0-.425.288-.712T10 13h4q.425 0 .713.288T15 14v5h3v-9l-6-4.5L6 10zm-2 0v-9q0-.475.213-.9t.587-.7l6-4.5q.525-.4 1.2-.4t1.2.4l6 4.5q.375.275.588.7T20 10v9q0 .825-.588 1.413T18 21h-4q-.425 0-.712-.288T13 20v-5h-2v5q0 .425-.288.713T10 21H6q-.825 0-1.412-.587T4 19m8-6.75" /></svg></li>
 
                 </button>
@@ -66,29 +66,31 @@ function DashboardNavbar() {
 
                 {/* Messages */}
                 <button className='text-gray-400 hover:text-white transition duration-200'
-                onClick={()=>{navigate('/chat')}}
+                    onClick={() => { navigate('/chat') }}
                 >
                     <li>
                         <svg xmlns="http://www.w3.org/2000/svg" className='h-8 w-8' viewBox="0 0 48 48"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M44 24c0 11.046-8.954 20-20 20H4V24C4 12.954 12.954 4 24 4s20 8.954 20 20m-30-6h18m-18 8h18m-18 8h10" /></svg>
                     </li>
-                    
+
                 </button>
 
                 {/* Profile */}
-                <div className='text-gray-400 hover:text-white transition duration-200'>
+                <button className='text-gray-400 hover:text-white transition duration-200'
+                    onClick={() => navigate('/profile')}
+                >
                     <li>
                         <svg xmlns="http://www.w3.org/2000/svg" className='h-8 w-8' viewBox="0 0 24 24"><g fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"><path d="M16 9a4 4 0 1 1-8 0a4 4 0 0 1 8 0m-2 0a2 2 0 1 1-4 0a2 2 0 0 1 4 0" /><path d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11s11-4.925 11-11S18.075 1 12 1M3 12c0 2.09.713 4.014 1.908 5.542A8.99 8.99 0 0 1 12.065 14a8.98 8.98 0 0 1 7.092 3.458A9 9 0 1 0 3 12m9 9a8.96 8.96 0 0 1-5.672-2.012A6.99 6.99 0 0 1 12.065 16a6.99 6.99 0 0 1 5.689 2.92A8.96 8.96 0 0 1 12 21" /></g></svg>
                     </li>
-                </div>
+                </button>
 
 
                 {/* Logout */}
-                <div className='text-gray-400 hover:text-white transition duration-200'>
+                <button className='text-gray-400 hover:text-white transition duration-200 '
+                onClick={() => {navigate("/your_posts")}}>
                     <li>
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-10" viewBox="0 0 24 24"><path fill="currentColor" d="m17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5M4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4z" /></svg>
-                    </li>
+                        <svg xmlns="http://www.w3.org/2000/svg" className='h-8 w-8' viewBox="0 0 256 256"><path fill="currentColor" d="M188 48a27.75 27.75 0 0 0-12 2.71V44a28 28 0 0 0-54.65-8.6A28 28 0 0 0 80 60v64l-3.82-6.13a28 28 0 0 0-48.6 27.82c16 33.77 28.93 57.72 43.72 72.69C86.24 233.54 103.2 240 128 240a88.1 88.1 0 0 0 88-88V76a28 28 0 0 0-28-28m12 104a72.08 72.08 0 0 1-72 72c-20.38 0-33.51-4.88-45.33-16.85C69.44 193.74 57.26 171 41.9 138.58a6 6 0 0 0-.3-.58a12 12 0 0 1 20.79-12a2 2 0 0 0 .14.23l18.67 30A8 8 0 0 0 96 152V60a12 12 0 0 1 24 0v60a8 8 0 0 0 16 0V44a12 12 0 0 1 24 0v76a8 8 0 0 0 16 0V76a12 12 0 0 1 24 0Z" /></svg>                    </li>
 
-                </div>
+                </button>
 
 
 

@@ -19,6 +19,9 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+
+
     public User authenticateUser(String email, String password) {
         Optional<User> userOptional = userRepository.findByEmail(email);
 

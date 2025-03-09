@@ -20,7 +20,7 @@ function Post({ isOpen, onClose }) {
     if (!isOpen) return null; // Don't render when closed
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md z-50">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md z-50 overflow-scroll">
             <div className="relative bg-gray-950 p-6 rounded-lg shadow-lg w-96">
                 {/* Close Button */}
                 <button
@@ -49,6 +49,8 @@ function Post({ isOpen, onClose }) {
                         <option key={index} value={skill}>{skill}</option>
                     ))}
                 </select>
+
+                <input type="text" />
 
                 {/* Post Button */}
                 <button className="w-full mt-4 px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-all duration-300">
