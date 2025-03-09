@@ -1,4 +1,4 @@
-const post = async ({ offer, requirement, description }) => {
+const post = async ({ offer, requirement, description, type }) => {
     try {
       const token = localStorage.getItem("token"); // Retrieve token from storage (if applicable)
   
@@ -8,7 +8,7 @@ const post = async ({ offer, requirement, description }) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // Include token if needed
         },
-        body: JSON.stringify({ offer, requirement, description }),
+        body: JSON.stringify({ offer, requirement, description, type }),
       });
   
       if (response.ok) {

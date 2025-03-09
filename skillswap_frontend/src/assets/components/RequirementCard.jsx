@@ -2,13 +2,11 @@ import { motion } from "framer-motion";
 import { div } from "framer-motion/client";
 import { FaMapMarkerAlt, FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-function RequirementCard({image, name, location, needs, offers, rating, id, u_id}) {
+function RequirementCard({image, name, location, needs, offers, id, u_id, type}) {
 
     const navigate = useNavigate();
 
-    const filledStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - filledStars - (hasHalfStar ? 1 : 0);
+  
 
     return (
         <motion.div
@@ -43,14 +41,11 @@ function RequirementCard({image, name, location, needs, offers, rating, id, u_id
 
             {/* Rating & Action */}
             <div className="mt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex text-yellow-500">
-                    {[...Array(filledStars)].map((_, i) => (
-                        <FaStar key={i} />
-                    ))}
-                    {hasHalfStar && <FaStarHalfAlt />}
-                    {[...Array(emptyStars)].map((_, i) => (
-                        <FaRegStar key={i} />
-                    ))}
+                <div className="font-semibold">
+                    {type == "Remote" ? 
+                    <div className="text-green-500">Remote</div>
+                     : type == "Hybrid" ? <div className="text-orange-500">Hybrid </div>
+                      : <div className="text-blue-500">On-Site </div>  }
                 </div>
                 <motion.button
                     whileTap={{ scale: 0.9 }}

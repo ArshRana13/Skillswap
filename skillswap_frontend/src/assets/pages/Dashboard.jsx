@@ -7,8 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const tags = [
   "Graphic Designing",
-  "Cooking",
-  "Singing",
   "React Development",
   "Flutter Development",
   "UI/UX Designing",
@@ -17,8 +15,29 @@ const tags = [
   "Photoshop",
   "Photography",
   "Python Development",
-  "Java Development"
+  "Java Development",
+  "Machine Learning",
+  "Data Science",
+  "Cloud Computing",
+  "Cybersecurity",
+  "DevOps",
+  "Game Development",
+  "Mobile App Development",
+  "Full Stack Development",
+  "Blockchain Development",
+  "Artificial Intelligence",
+  "Node.js Development",
+  "Django Development",
+  "Spring Boot Development",
+  "SEO (Search Engine Optimization)",
+  "Digital Marketing",
+  "Video Editing",
+  "Content Writing",
+  "Technical Writing",
+  "3D Modeling",
+  "Augmented Reality (AR) & Virtual Reality (VR)"
 ];
+
 
 function Dashboard() {
   const [offer, setOffer] = useState("");
@@ -27,6 +46,7 @@ function Dashboard() {
   const [isPostOpen, setIsPostOpen] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
   const [description, setDescription] = useState("");
+  const [type, setType] = useState("");
   const tagsRef = useRef(null);
 
   useEffect(() => {
@@ -54,12 +74,12 @@ function Dashboard() {
   }, []);
 
   const handlePost = async () => {
-    if(offer == "" || requirement == "" || description == "")
+    if(offer == "" || requirement == "" || description == "" || type == "")
     {
       alert("Please fill all the fields");
       return;
     }
-    await post({ offer, requirement, description});
+    await post({ offer, requirement, description, type});
     setIsPostOpen(false);
   };
 
@@ -128,7 +148,8 @@ function Dashboard() {
                 location= {post.user.location}
                 needs={post.requirement}
                 offers={post.offer}
-                rating={4.5}
+                type = {post.type}
+                
                 id= {post.id}
                 u_id = {post.user.id}
                 className="w-full max-w-xs md:max-w-sm mx-auto"
@@ -167,6 +188,14 @@ function Dashboard() {
                 {tags.map((skill, index) => (
                   <option key={index} value={skill}>{skill}</option>
                 ))}
+              </select>
+
+              <label className="text-white font-medium mt-4 block">How do you expect the work to be done?</label>
+              <select required className="bg-black hover:bg-gray-800 text-white w-full p-2 mt-2 border border-gray-300 rounded-md" value={type} onChange={(e) => setType(e.target.value)}>
+                <option value="" disabled>Choose type...</option>
+                <option value="Remote">Remote</option>
+                <option value="Hybrid">Hybrid</option>
+                <option value="On-Site">On-Site</option>
               </select>
 
               <textarea name="" className="w-full bg-gray-900 mt-4 min-h-18 max-h-28 border-2 text-gray-400 overflow-y-auto" placeholder="Add a description" id=""

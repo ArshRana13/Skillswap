@@ -31,4 +31,7 @@ public class Post {
 
     @Column
     private String description;
+
+    @Column
+    private String type;
 }
