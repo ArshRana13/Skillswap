@@ -194,5 +194,16 @@ public class UserController {
 
     }
 
+    @GetMapping("/posts/delete/{id}")
+    public boolean deletePost(@PathVariable Long id) {
+            Post post = postService.getPostById(id);
+            if(post != null) {
+                postRepository.delete(post);
+                return true;
+            }
+            return false;
+    }
+
+
 
 }

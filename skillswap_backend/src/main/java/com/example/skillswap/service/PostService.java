@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface PostService {
     List<Post> getUnacceptedPosts(Long userId);
     List<Post> getPostsByUser(Optional<User> user);
-
+    Post getPostById(Long id);
 
 }
 

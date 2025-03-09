@@ -30,4 +30,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostsByUser(Optional<User> user) {
         return postRepository.findByUser(user);
     }
+
+    public Post getPostById(Long postId) {
+        Optional<Post> post = postRepository.findById(postId);
+        return post.orElseThrow(() -> new RuntimeException("Post not found"));
+    }
 }
